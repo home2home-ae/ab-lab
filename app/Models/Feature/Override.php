@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Models\Feature;
+
+use App\Models\EloquentModel;
+use App\Models\Feature;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * @property int $feature_id
+ * @property string $value
+ * @property int $feature_treatment_id
+ *
+ * @property Feature $feature
+ * @property Treatment $treatment
+ */
+class Override extends EloquentModel
+{
+    protected $table = 'feature_overrides';
+
+    public function feature()
+    {
+        return $this->belongsTo(Feature::class, 'feature_id', 'id');
+    }
+
+    public function treatment()
+    {
+        return $this->belongsTo(Treatment::class, 'feature_treatment_id', 'id');
+    }
+}

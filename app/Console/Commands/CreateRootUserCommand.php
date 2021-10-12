@@ -45,12 +45,12 @@ class CreateRootUserCommand extends Command
         $name = env('ROOT_USER_NAME');
         $password = env('ROOT_USER_PASSWORD');
 
-        if (Admin::where('email', $email)->first()) {
+        if (User::where('email', $email)->first()) {
             $this->error("root user already exist");
             exit(1);
         }
 
-        $model = new Admin();
+        $model = new User();
         $model->email = $email;
         $model->name = $name;
         $model->password = Hash::make($password);
