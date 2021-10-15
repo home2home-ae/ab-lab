@@ -1,5 +1,12 @@
 # A/B Lab
 
+---
+**DISCLAIMER**
+
+It's still a work in progress, please see checklist before you make a decision.
+
+---
+
 ### Problem and Why this ?
 
 - A/B Testing is hard.
@@ -19,10 +26,25 @@ needs.
 - Using sqlite for authentication and features to keep it lightweight
 - Using REDIS to store features and treatments schema.
 
+### Checklist
+
+- [x] Add root user authentication
+- [x] Add feature adding with treatments, allocation
+- [ ] Add regular user page
+- [ ] Add change password page
+- [ ] Create A/B web logo
+- [ ] Write tests
+- [ ] Write REDIS caching implementation
+- [ ] Use horizon jobs
+- [ ] Write A/B Lab Accessor (PHP/Laravel)
+- [ ] Move this app to Production and post benchmarks (latency vs usability)
+
 ### Enhancements / Todo
 
 - [ ] Add metrics and fatals to check if and when users are crashing.
 - [ ] Right now there is no regionalization, we can add regionalization.
+- [ ] I genuinely think tailwindcss is stupid (especially for devs), I will change it to bootstrap.
+- [ ] Move Frontend to Vue JS instead of Blade (Although I love both..)
 
 ### License
 
