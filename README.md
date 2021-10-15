@@ -30,6 +30,7 @@ needs.
 
 - [x] Add root user authentication
 - [x] Add feature adding with treatments, allocation
+- [x] Add treatment assignment overrides
 - [ ] Add regular user page
 - [ ] Add change password page
 - [ ] Create A/B web logo
@@ -37,6 +38,7 @@ needs.
 - [ ] Write REDIS caching implementation
 - [ ] Use horizon jobs
 - [ ] Write A/B Lab Accessor (PHP/Laravel)
+  - [ ] Accessor should cache the results 
 - [ ] Move this app to Production and post benchmarks (latency vs usability)
 
 ### Enhancements / Todo
@@ -45,6 +47,9 @@ needs.
 - [ ] Right now there is no regionalization, we can add regionalization.
 - [ ] I genuinely think tailwindcss is stupid (especially for devs), I will change it to bootstrap.
 - [ ] Move Frontend to Vue JS instead of Blade (Although I love both..)
+
+### Deployment Plan
+My initial deployment plan is to deploy this application in the apps vicinity (same VPS perhaps), later I'll improve on it.
 
 ### License
 
