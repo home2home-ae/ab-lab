@@ -3,7 +3,7 @@
 namespace App\Models\Feature\Application;
 
 use App\Models\EloquentModel;
-use App\Models\Feature\Application;
+use App\Models\Feature\FeatureApplication;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,20 +13,20 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property int $allocation
  *
- * @property Application $application
- * @property \App\Models\Feature\Treatment $treatment
+ * @property FeatureApplication $application
+ * @property \App\Models\Feature\FeatureTreatment $treatment
  */
-class TreatmentDevo extends EloquentModel
+class FeatureApplicationTreatmentDevo extends EloquentModel
 {
     protected $table = 'feature_applications_treatments_devo';
 
     public function application()
     {
-        return $this->belongsTo(Application::class, 'feature_application_id', 'id');
+        return $this->belongsTo(FeatureApplication::class, 'feature_application_id', 'id');
     }
 
     public function teatment()
     {
-        return $this->belongsTo(\App\Models\Feature\Treatment::class, 'feature_treatment_id', 'id');
+        return $this->belongsTo(\App\Models\Feature\FeatureTreatment::class, 'feature_treatment_id', 'id');
     }
 }

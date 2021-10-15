@@ -14,4 +14,8 @@ use Illuminate\Database\Eloquent\Model;
 class Application extends EloquentModel
 {
     protected $table = 'applications';
+
+    protected $fillable = [
+        'name', 'detail', 'icon', 'type'
+    ];
 }

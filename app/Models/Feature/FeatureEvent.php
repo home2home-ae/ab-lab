@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $user_id
  * @property string $description
  */
-class Event extends EloquentModel
+class FeatureEvent extends EloquentModel
 {
     protected $table = 'feature_events';
 

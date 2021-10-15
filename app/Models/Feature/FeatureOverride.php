@@ -13,9 +13,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $feature_treatment_id
  *
  * @property Feature $feature
- * @property Treatment $treatment
+ * @property FeatureTreatment $treatment
  */
-class Override extends EloquentModel
+class FeatureOverride extends EloquentModel
 {
     protected $table = 'feature_overrides';
 
@@ -26,6 +26,6 @@ class Override extends EloquentModel
 
     public function treatment()
     {
-        return $this->belongsTo(Treatment::class, 'feature_treatment_id', 'id');
+        return $this->belongsTo(FeatureTreatment::class, 'feature_treatment_id', 'id');
     }
 }
