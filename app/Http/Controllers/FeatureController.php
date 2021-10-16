@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Data\ApplicationStage;
 use App\Data\FeatureApplicationStatus;
+use App\Data\FeatureOverride;
 use App\Data\FeatureTreatment;
 use App\Data\FeatureType;
 use App\Models\Application;
@@ -19,7 +20,12 @@ class FeatureController extends Controller
 {
     public function index()
     {
-        return view('features.index');
+        $builder = Feature::query();
+
+
+        $results = $builder->paginate();
+
+        return view('features.index', compact('results'));
     }
 
     public function create()
@@ -105,6 +111,66 @@ class FeatureController extends Controller
         $applicationList = $applications->pluck('name', 'id')->toArray();
 
         return view('features.activation', compact('model', 'applications', 'applicationList'));
+    }
+
+    public function featureOverrides($name)
+    {
+        /** @var Feature $model */
+        $model = Feature::where('name', $name)->firstOrFail();
+
+        $treatmentList = $model->treatments()->pluck('name', 'id')->toArray();
+
+        return view('features.overrides', compact('model', 'treatmentList'));
+    }
+
+    public function addFeatureOverride($name, Request $request)
+    {
+        /** @var Feature $model */
+        $model = Feature::where('name', $name)->firstOrFail();
+
+        if ($model->overrides()->count() >= FeatureOverride::THRESHOLD) {
+            return back()->with('error', 'Overrides already reached ' . FeatureOverride::THRESHOLD . ', You should launch this feature to 100% now!!');
+        }
+
+
+        $request->validate([
+            'treatment' => [
+                'required',
+                Rule::exists('feature_treatments', 'id')->where('feature_id', $model->id)
+            ],
+            'value' => [
+                'required',
+                Rule::unique('feature_treatments', 'value')->where('feature_treatment_id', $request->get('treatment'))
+            ]
+        ]);
+
+        if (Feature\FeatureOverride::query()
+            ->where('value', $request->get('value'))
+            ->where('feature_id', $model->id)
+            ->first()) {
+            return back()->with('error', 'This entity id is already over ridden, please remove the existing override first.');
+        }
+
+        $featureOverride = new Feature\FeatureOverride();
+        $featureOverride->value = $request->get('value');
+        $featureOverride->feature_treatment_id = $request->get('treatment');
+        $featureOverride->feature_id = $model->id;
+        $featureOverride->save();
+
+        return back()->with('success', 'Feature override added successfully!');
+    }
+
+    public function deleteFeatureOverride($name, $value, Request $request)
+    {
+        /** @var Feature $model */
+        $model = Feature::where('name', $name)->firstOrFail();
+
+        /** @var Feature\FeatureOverride $override */
+        $override = $model->overrides()->where('value', $value)->firstOrFail();
+
+        $override->delete();
+
+        return back()->with('success', 'Feature override removed successfully!');
     }
 
     public function activateApplication($name, Request $request)
@@ -267,12 +333,29 @@ class FeatureController extends Controller
 
         foreach ($request->get('allocations') as $treatmentId => $allocation) {
             // get feature treatment
+
+            /** @var Feature\FeatureTreatment $featureTreatment */
             $featureTreatment = $featureApplication->treatments()->where('feature_treatments.id', $treatmentId)->firstOrFail();
 
             $featureTreatment->pivot->allocation = intval($allocation);
             $featureTreatment->pivot->save();
-        }
 
+            // paused, if C=100
+            if ($featureTreatment->name === FeatureTreatment::C && intval($allocation) === 100) {
+                $featureApplication->status = FeatureApplicationStatus::PAUSED;
+                $featureApplication->save();
+
+                // launched, if C=0
+            } else if ($featureTreatment->name === FeatureTreatment::C && intval($allocation) === 0) {
+                $featureApplication->status = FeatureApplicationStatus::LAUNCHED;
+                $featureApplication->save();
+
+                // On, if any other than C > 0,
+            } else if ($featureTreatment->name !== FeatureTreatment::C && intval($allocation) > 0) {
+                $featureApplication->status = FeatureApplicationStatus::ON;
+                $featureApplication->save();
+            }
+        }
 
         return back()->with('success', 'Feature treatment allocations updated.');
     }

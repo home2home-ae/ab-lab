@@ -38,18 +38,20 @@ needs.
 - [ ] Write REDIS caching implementation
 - [ ] Use horizon jobs
 - [ ] Write A/B Lab Accessor (PHP/Laravel)
-  - [ ] Accessor should cache the results 
+    - [ ] Accessor should cache the results
 - [ ] Move this app to Production and post benchmarks (latency vs usability)
 
 ### Enhancements / Todo
 
+- [ ] Add enable / disable treatment overrides (right now it's by default enabled)
 - [ ] Add metrics and fatals to check if and when users are crashing.
 - [ ] Right now there is no regionalization, we can add regionalization.
-- [ ] I genuinely think tailwindcss is stupid (especially for devs), I will change it to bootstrap.
 - [ ] Move Frontend to Vue JS instead of Blade (Although I love both..)
 
 ### Deployment Plan
-My initial deployment plan is to deploy this application in the apps vicinity (same VPS perhaps), later I'll improve on it.
+
+My initial deployment plan is to deploy this application in the apps vicinity (same VPS perhaps), later I'll improve on
+it.
 
 ### License
 

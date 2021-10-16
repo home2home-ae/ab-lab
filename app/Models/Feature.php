@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Feature\FeatureApplication;
 use App\Models\Feature\FeatureApplicationDevo;
+use App\Models\Feature\FeatureOverride;
 use App\Models\Feature\FeatureTreatment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,6 +22,7 @@ use Illuminate\Support\Collection;
  * @property FeatureTreatment[]|Collection $treatments
  * @property FeatureApplication[]|Collection $applications
  * @property FeatureApplicationDevo[]|Collection $devoApplications
+ * @property FeatureOverride[]|Collection $overrides
  */
 class Feature extends EloquentModel
 {
@@ -46,5 +48,10 @@ class Feature extends EloquentModel
     public function devoApplications()
     {
         return $this->hasMany(FeatureApplicationDevo::class, 'feature_id', 'id');
+    }
+
+    public function overrides()
+    {
+        return $this->hasMany(FeatureOverride::class, 'feature_id', 'id');
     }
 }

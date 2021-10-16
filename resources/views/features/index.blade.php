@@ -1,19 +1,39 @@
 <x-app-layout>
-    <x-page-header title="" :links="[
+    <x-page-header title="Features" :links="[
         ['url' => route('dashboard'),'label' => 'Dashboard'],
         ['label' => 'Features'],
     ]"></x-page-header>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
 
-                     <x-link href="{{ route('create-feature') }}">Create Feature</x-link>
+    <x-card>
 
+        <a href="{{ route('create-feature') }}" class="btn btn-primary btn-sm">Create Feature</a>
 
-                </div>
-            </div>
-        </div>
-    </div>
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Owner</th>
+                <th>Created</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($results as $result)
+                <tr>
+                    <td>{{ $result->id }}</td>
+                    <td>
+                        <x-link href="{{ route('feature-detail', ['name' => $result->name]) }}">
+                            {{ $result->name }}
+                        </x-link>
+                    </td>
+                    <td>{{ $result->user->name }}</td>
+                    <td>{{ $result->created_at }}</td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+
+    </x-card>
+
 </x-app-layout>
