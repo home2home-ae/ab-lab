@@ -27,6 +27,11 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li>
+                            <a class="dropdown-item" href="{{ route('change-password') }}">
+                                {{ __('Change password') }}
+                            </a>
+                        </li>
+                        <li>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
 

@@ -17,7 +17,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function () {
+Route::group(['middleware' => 'auth', 'prefix' => 'abl'], function () {
+
+    Route::group(['prefix' => 'auth'], function () {
+        Route::get('change-password', 'AuthController@changePasswordForm')->name('change-password');
+        Route::post('update-password', 'AuthController@updatePassword')->name('update-password');
+    });
 
     Route::get('/', 'DashboardController@index')->name('dashboard');
 

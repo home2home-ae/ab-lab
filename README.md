@@ -32,7 +32,7 @@ needs.
 - [x] Add feature adding with treatments, allocation
 - [x] Add treatment assignment overrides
 - [ ] Add regular user page
-- [ ] Add change password page
+- [x] Add change password page
 - [ ] Create A/B web logo
 - [ ] Write tests
 - [ ] Write REDIS caching implementation
@@ -45,7 +45,7 @@ needs.
 
 - [ ] Add enable / disable treatment overrides (right now it's by default enabled)
 - [ ] Add metrics and fatals to check if and when users are crashing.
-- [ ] Right now there is no regionalization, we can add regionalization.
+- [ ] Right now there is no regionalization, we can add regionalization..
 - [ ] Move Frontend to Vue JS instead of Blade (Although I love both..)
 
 ### Deployment Plan
