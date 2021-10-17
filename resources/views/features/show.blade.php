@@ -15,7 +15,7 @@
             @include('features.show.links')
         </div>
 
-        <x-form action="{{ route('update-feature', ['name' => $model->name]) }}" method="POST"
+        <x-form action="{{ route('update-feature', ['name' => $model->name]) }}" method="PUT"
                 id="update-form">
 
             <x-flash class="my-2" />

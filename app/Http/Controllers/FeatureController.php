@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Data\ApplicationStage;
 use App\Data\FeatureApplicationStatus;
+use App\Data\FeatureEventType;
 use App\Data\FeatureOverride;
 use App\Data\FeatureTreatment;
 use App\Data\FeatureType;
+use App\Events\FeatureUpdate;
 use App\Models\Application;
 use App\Models\Feature;
+use Faker\Provider\en_UG\PhoneNumber;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -81,20 +84,56 @@ class FeatureController extends Controller
         $model->user_id = Auth::id();
         $model->save();
 
+        FeatureUpdate::dispatch(Auth::user(), $model, FeatureEventType::CREATED, []);
+
         return redirect()->route('feature-detail', ['id' => $model->id])
             ->with('success', 'Feature created successfully!');
     }
 
+    public function update($name, Request $request)
+    {
+        /** @var Feature $model */
+        $model = Feature::query()->where('user_id', Auth::id())
+            ->where('name', $name)->firstOrFail();
+
+        $request->validate([
+            'type' => [
+                'required',
+                Rule::in([FeatureType::EXPERIMENT, FeatureType::LAUNCH])
+            ],
+            'title' => [
+                'required',
+                'max: 128'
+            ],
+            'description' => [
+                'required',
+                'max:1024'
+            ]
+        ]);
+
+        $model->update($request->all());
+
+        FeatureUpdate::dispatch(Auth::user(), $model, FeatureEventType::UPDATED, [
+            'title' => $model->title,
+            'type' => $model->type,
+            'description' => $model->description
+        ]);
+
+        return back()->with('success', 'Feature updated successfully!');
+    }
+
     public function show($name)
     {
-        $model = Feature::where('name', $name)->firstOrFail();
+        $model = Feature::query()->where('user_id', Auth::id())
+            ->where('name', $name)->firstOrFail();
 
         return view('features.show', compact('model'));
     }
 
     public function showTreatments($name)
     {
-        $model = Feature::where('name', $name)->firstOrFail();
+        $model = Feature::query()->where('user_id', Auth::id())
+            ->where('name', $name)->firstOrFail();
 
         return view('features.show-treatments', compact('model'));
     }
@@ -102,7 +141,8 @@ class FeatureController extends Controller
     public function featureActivation($name)
     {
         /** @var Feature $model */
-        $model = Feature::where('name', $name)->firstOrFail();
+        $model = Feature::query()->where('user_id', Auth::id())
+            ->where('name', $name)->firstOrFail();
 
         $addedApplicationIds = $model->applications()->pluck('application_id')->toArray();
 
@@ -116,7 +156,8 @@ class FeatureController extends Controller
     public function featureOverrides($name)
     {
         /** @var Feature $model */
-        $model = Feature::where('name', $name)->firstOrFail();
+        $model = Feature::query()->where('user_id', Auth::id())
+            ->where('name', $name)->firstOrFail();
 
         $treatmentList = $model->treatments()->pluck('name', 'id')->toArray();
 
@@ -126,7 +167,8 @@ class FeatureController extends Controller
     public function addFeatureOverride($name, Request $request)
     {
         /** @var Feature $model */
-        $model = Feature::where('name', $name)->firstOrFail();
+        $model = Feature::query()->where('user_id', Auth::id())
+            ->where('name', $name)->firstOrFail();
 
         if ($model->overrides()->count() >= FeatureOverride::THRESHOLD) {
             return back()->with('error', 'Overrides already reached ' . FeatureOverride::THRESHOLD . ', You should launch this feature to 100% now!!');
@@ -157,18 +199,32 @@ class FeatureController extends Controller
         $featureOverride->feature_id = $model->id;
         $featureOverride->save();
 
+        FeatureUpdate::dispatch(Auth::user(), $model, FeatureEventType::OVERRIDE_ADDED, [
+            'entity_id' => $featureOverride->value,
+            'treatment' => $featureOverride->treatment->name
+        ]);
+
         return back()->with('success', 'Feature override added successfully!');
     }
 
     public function deleteFeatureOverride($name, $value, Request $request)
     {
         /** @var Feature $model */
-        $model = Feature::where('name', $name)->firstOrFail();
+        $model = Feature::query()->where('user_id', Auth::id())
+            ->where('name', $name)->firstOrFail();
 
         /** @var Feature\FeatureOverride $override */
         $override = $model->overrides()->where('value', $value)->firstOrFail();
 
+        $entity_id = $override->value;
+        $treatment = $override->treatment->name;
+
         $override->delete();
+
+        FeatureUpdate::dispatch(Auth::user(), $model, FeatureEventType::OVERRIDE_DELETED, [
+            'entity_id' => $entity_id,
+            'treatment' => $treatment
+        ]);
 
         return back()->with('success', 'Feature override removed successfully!');
     }
@@ -176,7 +232,8 @@ class FeatureController extends Controller
     public function activateApplication($name, Request $request)
     {
         /** @var Feature $model */
-        $model = Feature::where('name', $name)->firstOrFail();
+        $model = Feature::query()->where('user_id', Auth::id())
+            ->where('name', $name)->firstOrFail();
 
         $request->validate([
             'application' => [
@@ -219,6 +276,10 @@ class FeatureController extends Controller
             return back()->with('error', $exception->getMessage());
         }
 
+        FeatureUpdate::dispatch(Auth::user(), $model, FeatureEventType::APPLICATION_ADDED, [
+            'application' => $app->application->name,
+        ]);
+
         return back()->with('success', 'application activated successfully!');
     }
 
@@ -240,6 +301,8 @@ class FeatureController extends Controller
             FeatureTreatment::T3,
         ];
 
+        $oldTreatments = $model->treatments()->pluck('name')->toArray();
+
         foreach ($treatments as $treatment) {
 
             if ($model->treatments()->where('name', $treatment)->first()) {
@@ -257,6 +320,13 @@ class FeatureController extends Controller
 
             return back()->with('success', 'FeatureTreatment added');
         }
+
+        $newTreatments = $model->treatments()->pluck('name')->toArray();
+
+        FeatureUpdate::dispatch(Auth::user(), $model, FeatureEventType::TREATMENT_UPDATED, [
+            'old' => $oldTreatments,
+            'new' => $newTreatments,
+        ]);
 
         return back()->with('info', 'Treatments already added');
     }
@@ -277,8 +347,16 @@ class FeatureController extends Controller
             ]
         ]);
 
+        $oldDescription = $treatmentModel->description;
+
         $treatmentModel->description = $request->get('description');
         $treatmentModel->save();
+
+        FeatureUpdate::dispatch(Auth::user(), $model, FeatureEventType::TREATMENT_INFO_UPDATED, [
+            'treatment' => $treatmentModel->name,
+            'old' => $oldDescription,
+            'new' => $treatmentModel->description
+        ]);
 
         return back()->with('info', 'Treatments description updated');
     }
@@ -355,7 +433,13 @@ class FeatureController extends Controller
                 $featureApplication->status = FeatureApplicationStatus::ON;
                 $featureApplication->save();
             }
+
+            FeatureUpdate::dispatch(Auth::user(), $model, FeatureEventType::ALLOCATION_UPDATED, [
+                'treatment' => $featureTreatment->name,
+                'allocation' => $allocation
+            ]);
         }
+
 
         return back()->with('success', 'Feature treatment allocations updated.');
     }

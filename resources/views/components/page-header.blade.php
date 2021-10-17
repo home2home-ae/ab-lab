@@ -19,5 +19,9 @@
 
         </ol>
     </nav>
+
+    @if(isset($title))
+        @section('title', $title)
+    @endif
 @endif
 

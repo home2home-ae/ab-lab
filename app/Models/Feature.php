@@ -30,6 +30,10 @@ class Feature extends EloquentModel
 
     protected $table = 'features';
 
+    protected $fillable = [
+        'type', 'title', 'description'
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');

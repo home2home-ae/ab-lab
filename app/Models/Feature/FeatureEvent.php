@@ -3,6 +3,7 @@
 namespace App\Models\Feature;
 
 use App\Models\EloquentModel;
+use App\Models\Feature;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,17 +11,20 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property string $level
  * @property string $type
- * @property int $application_id
+ * @property int $feature_id
  * @property int $user_id
  * @property string $description
+ * @property string $raw
+ *
+ * @property Feature $feature
  */
 class FeatureEvent extends EloquentModel
 {
     protected $table = 'feature_events';
 
-    public function application()
+    public function feature()
     {
-        return $this->belongsTo(\App\Models\Application::class, 'application_id', 'id');
+        return $this->belongsTo(Feature::class, 'feature_id', 'id');
     }
 
     public function user()

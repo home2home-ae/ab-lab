@@ -14,9 +14,17 @@
                     <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" aria-current="page"
                        href="{{ route('dashboard') }}">Dashboard</a>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('features') ? 'active' : '' }}" aria-current="page"
                        href="{{ route('features') }}">Features</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('users.index') ? 'active' : '' }}" aria-current="page"
+                       href="{{ route('users.index') }}">
+                        Users
+                    </a>
                 </li>
             </ul>
             <ul class="navbar-nav mr-5 mb-2 mb-lg-0">
