@@ -29,6 +29,15 @@ class RouteServiceProvider extends ServiceProvider
     protected $namespace = 'App\\Http\\Controllers';
 
     /**
+     * The controller namespace for the application.
+     *
+     * When present, controller route declarations will automatically be prefixed with this namespace.
+     *
+     * @var string
+     */
+    protected $apiNamespace = 'App\\Http\\Controllers\\Api';
+
+    /**
      * Define your route model bindings, pattern filters, etc.
      *
      * @return void
@@ -40,12 +49,18 @@ class RouteServiceProvider extends ServiceProvider
         $this->routes(function () {
             Route::prefix('api')
                 ->middleware('api')
-                ->namespace($this->namespace)
+                ->namespace($this->apiNamespace)
                 ->group(base_path('routes/api.php'));
 
             Route::middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
+
+            if (app()->environment(['local'])) {
+                Route::middleware('web')
+                    ->namespace($this->namespace)
+                    ->group(base_path('routes/web-test.php'));
+            }
         });
     }
 
@@ -56,8 +71,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function configureRateLimiting()
     {
-        RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
-        });
+//        RateLimiter::for('api', function (Request $request) {
+//            return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
+//        });
     }
 }

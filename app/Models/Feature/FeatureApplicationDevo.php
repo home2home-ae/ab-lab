@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $feature_id
  * @property int $application_id
  * @property string $status
+ * @property boolean $are_overrides_active
  *
  * @property Feature $feature
  * @property \App\Models\Application $application

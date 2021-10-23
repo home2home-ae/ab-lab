@@ -15,5 +15,8 @@ interface FeatureEventType
     const OVERRIDE_ADDED = 'OVERRIDE ADDED';
     const OVERRIDE_DELETED = 'OVERRIDE DELETED';
     const ALLOCATION_UPDATED = 'ALLOCATION UPDATED';
+    const PAUSE = 'PAUSE';
+    const PLAY = 'PLAY';
+    const OVERRIDE_TOGGLE = 'OVERRIDE TOGGLE';
     const SYSTEM = 'SYSTEM';
 }

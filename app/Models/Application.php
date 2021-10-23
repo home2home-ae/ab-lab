@@ -10,12 +10,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $detail
  * @property string $icon
  * @property string $type
+ * @property string $unique_id
  */
 class Application extends EloquentModel
 {
     protected $table = 'applications';
 
     protected $fillable = [
-        'name', 'detail', 'icon', 'type'
+        'name', 'detail', 'icon', 'type', 'unique_id'
     ];
 }

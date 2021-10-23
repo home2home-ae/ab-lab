@@ -19,9 +19,9 @@ class CreateFeaturesTable extends Migration
 
             $table->string('name')->unique();
             $table->string('detail')->nullable();
-            $table->string('icon')->nullable();
+            $table->string('icon')->default('web.png');
             $table->enum('type', ['WEB', 'MOBILE', 'DESKTOP'])->default('WEB');
-
+            $table->string('unique_id')->unique();
             $table->timestamps();
         });
 
@@ -130,8 +130,8 @@ class CreateFeaturesTable extends Migration
 
             $table->timestamps();
 
-            $table->foreign('feature_application_id')->references('id')->on('feature_applications');
-            $table->foreign('feature_treatment_id')->references('id')->on('feature_treatments');
+            $table->foreign('feature_application_id', 'fatd_faid')->references('id')->on('feature_applications');
+            $table->foreign('feature_treatment_id', 'fatd_ftid')->references('id')->on('feature_treatments');
         });
 
         // audit logs..

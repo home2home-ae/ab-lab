@@ -2,19 +2,24 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.0",
         "doctrine/dbal": "^3.1",
         "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^7.0.1",
+        "guzzlehttp/guzzle": "^7.4",
         "inertiajs/inertia-laravel": "^0.4.3",
         "laravel/framework": "^8.54",
         "laravel/horizon": "^5.7",
         "laravel/sanctum": "^2.6",
         "laravel/tinker": "^2.5",
-        "tightenco/ziggy": "^1.0"
+        "predis/predis": "^1.1",
+        "tightenco/ziggy": "^1.0",
+        "rummykhan/ab-test-accessor": "dev-master"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -63,5 +68,11 @@
         "sort-packages": true
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../ab-test-packages/ab-test-accessor"
+        }
+    ]
 }

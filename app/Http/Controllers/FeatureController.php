@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Data\ApplicationStage;
+use ABTest\Accessor\Data\ApplicationStage;
+use ABTest\Accessor\Data\FeatureTreatment;
 use App\Data\FeatureApplicationStatus;
 use App\Data\FeatureEventType;
 use App\Data\FeatureOverride;
-use App\Data\FeatureTreatment;
 use App\Data\FeatureType;
 use App\Events\FeatureUpdate;
 use App\Models\Application;
@@ -442,5 +442,94 @@ class FeatureController extends Controller
 
 
         return back()->with('success', 'Feature treatment allocations updated.');
+    }
+
+    public function toggleOverrides($name, $stage, $application, Request $request)
+    {
+        /** @var Feature $model */
+        $model = Feature::where('name', $name)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+
+        /** @var Feature\FeatureApplicationDevo|Feature\FeatureApplication $featureApplication */
+        if ($stage === ApplicationStage::DEVELOPMENT) {
+            $featureApplication = $model->devoApplications()->where('id', $application)->first();
+        } else if ($stage === ApplicationStage::PRODUCTION) {
+            $featureApplication = $model->applications()->where('id', $application)->first();
+        } else {
+            throw new \Exception("Stage: {$stage} is not supported..");
+        }
+
+
+        $featureApplication->are_overrides_active = !$featureApplication->are_overrides_active;
+        $featureApplication->save();
+
+        FeatureUpdate::dispatch(Auth::user(), $model, FeatureEventType::OVERRIDE_TOGGLE, [
+            'feature' => $model->name,
+            'application' => $featureApplication->application->name,
+            'applicationId' => $featureApplication->id,
+            'stage' => $stage,
+            'state' => $featureApplication->are_overrides_active ? 'Turn ON' : 'Turn Off'
+        ]);
+
+        return back()->with('success', 'Overriedes are toggled.');
+    }
+
+    public function pauseFeature($name, $stage, $application, Request $request)
+    {
+        /** @var Feature $model */
+        $model = Feature::where('name', $name)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+
+        /** @var Feature\FeatureApplicationDevo|Feature\FeatureApplication $featureApplication */
+        if ($stage === ApplicationStage::DEVELOPMENT) {
+            $featureApplication = $model->devoApplications()->where('id', $application)->first();
+        } else if ($stage === ApplicationStage::PRODUCTION) {
+            $featureApplication = $model->applications()->where('id', $application)->first();
+        } else {
+            throw new \Exception("Stage: {$stage} is not supported..");
+        }
+
+        $featureApplication->status = FeatureApplicationStatus::PAUSED;
+        $featureApplication->save();
+
+        FeatureUpdate::dispatch(Auth::user(), $model, FeatureEventType::PAUSE, [
+            'feature' => $model->name,
+            'application' => $featureApplication->application->name,
+            'applicationId' => $featureApplication->id,
+            'stage' => $stage,
+        ]);
+
+        return back()->with('success', 'Application status changed to paused.');
+    }
+
+    public function playFeature($name, $stage, $application, Request $request)
+    {
+        /** @var Feature $model */
+        $model = Feature::where('name', $name)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+
+        /** @var Feature\FeatureApplicationDevo|Feature\FeatureApplication $featureApplication */
+        if ($stage === ApplicationStage::DEVELOPMENT) {
+            $featureApplication = $model->devoApplications()->where('id', $application)->first();
+        } else if ($stage === ApplicationStage::PRODUCTION) {
+            $featureApplication = $model->applications()->where('id', $application)->first();
+        } else {
+            throw new \Exception("Stage: {$stage} is not supported..");
+        }
+
+        $featureApplication->status = FeatureApplicationStatus::ON;
+        $featureApplication->save();
+
+        FeatureUpdate::dispatch(Auth::user(), $model, FeatureEventType::PLAY, [
+            'feature' => $model->name,
+            'application' => $featureApplication->application->name,
+            'applicationId' => $featureApplication->id,
+            'stage' => $stage,
+        ]);
+
+        return back()->with('success', 'Application status changed to on.');
     }
 }

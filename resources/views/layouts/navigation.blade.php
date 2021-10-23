@@ -16,6 +16,11 @@
                 </li>
 
                 <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('applications') ? 'active' : '' }}" aria-current="page"
+                       href="{{ route('applications') }}">Applications</a>
+                </li>
+
+                <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('features') ? 'active' : '' }}" aria-current="page"
                        href="{{ route('features') }}">Features</a>
                 </li>

@@ -61,36 +61,42 @@ class CreateApplicationEntitiesCommand extends Command
                 'detail' => 'H2H admin dashboard',
                 'icon' => 'web.png',
                 'type' => ApplicationType::WEB,
+                'unique_id' => 'H2H-ADMIN',
             ],
             [
                 'name' => 'H2H Seller',
                 'detail' => 'H2H seller dashboard',
                 'icon' => 'web.png',
                 'type' => ApplicationType::WEB,
+                'unique_id' => 'H2H-SELLER',
             ],
             [
                 'name' => 'H2H Web',
                 'detail' => 'H2H main website',
                 'icon' => 'web.png',
                 'type' => ApplicationType::WEB,
+                'unique_id' => 'H2H-MAIN-WEB',
             ],
             [
                 'name' => 'H2H Order app',
                 'detail' => 'H2H order application',
                 'icon' => 'web.png',
                 'type' => ApplicationType::WEB,
+                'unique_id' => 'H2H-ORDER-APP',
             ],
             [
                 'name' => 'H2H api',
                 'detail' => 'H2H api',
                 'icon' => 'web.png',
                 'type' => ApplicationType::WEB,
+                'unique_id' => 'H2H-API',
             ],
             [
                 'name' => 'H2H 3Menus',
                 'detail' => 'H2H mobile',
                 'icon' => 'mobile.png',
                 'type' => ApplicationType::MOBILE,
+                'unique_id' => 'H2H-3MENUS-APP',
             ],
         ];
     }

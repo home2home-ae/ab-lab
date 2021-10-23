@@ -31,7 +31,10 @@ class AlterTableFeatureEventsAddFeatureId extends Migration
                 'OVERRIDE ADDED',
                 'OVERRIDE DELETED',
                 'ALLOCATION UPDATED',
-                'SYSTEM'
+                'SYSTEM',
+                'PLAY',
+                'PAUSE',
+                'OVERRIDE TOGGLE',
             ]);
             $table->unsignedBigInteger('feature_id');
             $table->unsignedBigInteger('user_id');

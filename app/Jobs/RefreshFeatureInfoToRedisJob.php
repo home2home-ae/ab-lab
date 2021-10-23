@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Data\ApplicationStage;
+use ABTest\Accessor\Data\ApplicationStage;
 use App\Data\FeatureApplicationStatus;
 use App\Models\Feature;
 use Illuminate\Bus\Queueable;
@@ -11,6 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Redis;
 
 class RefreshFeatureInfoToRedisJob implements ShouldQueue
 {
@@ -47,7 +48,11 @@ class RefreshFeatureInfoToRedisJob implements ShouldQueue
 
         $data['overrides'] = $this->getFeatureOverride();
 
-        return $data;
+        print("\r\n");
+        print(json_encode($data));
+        print("\r\n");
+
+        Redis::set($this->feature->name, json_encode($data));
     }
 
     public function getApplications()
