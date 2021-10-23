@@ -19,9 +19,9 @@
                 <div class="col-md-6 col-sm-12">
                     <x-label>Type</x-label>
                     <div class="d-block mt-3">
-                        <x-radio id="launch" required name="type" value="{{ \App\Data\FeatureType::LAUNCH }}"
+                        <x-radio id="launch" required name="type" value="{{ \ABLab\Accessor\Data\FeatureType::LAUNCH }}"
                                  label="Launch"></x-radio>
-                        <x-radio id="experiment" required name="type" value="{{ \App\Data\FeatureType::EXPERIMENT }}"
+                        <x-radio id="experiment" required name="type" value="{{ \ABLab\Accessor\Data\FeatureType::EXPERIMENT }}"
                                  label="Experiment"></x-radio>
                     </div>
                 </div>

@@ -9,6 +9,7 @@
     <table class="table">
         <thead>
         <tr class="">
+            <th class="">ID</th>
             <th class="">Name</th>
             <th class="">Type</th>
             <th class="">Overrides</th>
@@ -21,6 +22,7 @@
         @foreach($applications as $application)
             <tr>
 
+                <td>{{ $application->application->unique_id }}</td>
                 <td>{{ $application->application->name }}</td>
                 <td class="">
 

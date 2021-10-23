@@ -39,13 +39,13 @@
         @include('features.activation.table', [
                             'applications' => $model->applications,
                             'name' => $model->name,
-                            'stage' => \ABTest\Accessor\Data\ApplicationStage::PRODUCTION
+                            'stage' => \ABLab\Accessor\Data\ApplicationStage::PRODUCTION
                             ])
 
         @include('features.activation.table', [
                             'applications' => $model->devoApplications,
                             'name' => $model->name,
-                            'stage' => \ABTest\Accessor\Data\ApplicationStage::DEVELOPMENT
+                            'stage' => \ABLab\Accessor\Data\ApplicationStage::DEVELOPMENT
                             ])
 
 

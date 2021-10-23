@@ -19,7 +19,7 @@
         "laravel/tinker": "^2.5",
         "predis/predis": "^1.1",
         "tightenco/ziggy": "^1.0",
-        "rummykhan/ab-test-accessor": "dev-master"
+        "rummykhan/ab-lab-accessor": "dev-master"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -72,7 +72,7 @@
     "repositories": [
         {
             "type": "path",
-            "url": "../ab-test-packages/ab-test-accessor"
+            "url": "../ab-lab-packages/ab-lab-accessor"
         }
     ]
 }

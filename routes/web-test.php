@@ -1,31 +1,35 @@
 <?php
 
+use ABLab\Accessor\Data\ApplicationStage;
+use ABLab\Accessor\Data\FeatureTreatment;
+use ABLab\Accessor\Manager\RedisFeatureRetriever;
+use ABLab\Accessor\Request\GetTreatmentRequest;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Redis;
 
 
 Route::get('/test', function () {
 
-    /**
-     * {
-     * "feature": "AB_TEST_1_O9B_12000_6675",
-     * "application": "SELLER",
-     * "defaultTreatment": "SELLER",
-     * "entityId": "0"
-     * }
-     */
+    $feature = 'AB_TEST_1_BP0_12000_3543';
+    $applicaton = 'H2H-SELLER';
+    $applicationStage = ApplicationStage::PRODUCTION;
+    $defaultTreatment = FeatureTreatment::C;
+    $entityId = '555';
 
-    $url = 'http://ab-test.loc/api/treatment';
+    $treatmentRequest = new GetTreatmentRequest($feature, $applicaton, $applicationStage, $entityId, $defaultTreatment);
 
-    $feature = 'AB_TEST_1_O9B_12000_6675';
-    $applicaton = 'SELLER';
-    $applicationStage = \ABTest\Accessor\Data\ApplicationStage::DEVELOPMENT;
-    $defaultTreatment = \ABTest\Accessor\Data\FeatureTreatment::C;
-    $entityId = '0';
+    /** @var RedisFeatureRetriever $manager */
+    $manager = app('ab-lab-accessor');
 
-    $helper = new \App\Helper\RedisFeatureHelper($feature, $applicaton, $applicationStage, $entityId, $defaultTreatment);
-
-    $response = $helper->getTreatment();
+    $response = $manager->getTreatment($treatmentRequest);
 
     dd($response);
 
+});
+
+Route::get('/test-redis', function () {
+
+    Redis::set('rummykhan', 'rummykhan');
+
+    dd(Redis::get('rummykhan'));
 });

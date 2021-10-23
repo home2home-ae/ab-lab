@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1374b7592cb330153fabc7bb8fdbae68",
+    "content-hash": "f65f9d10faf3f53651ad314919f99372",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3478,17 +3478,21 @@
             "time": "2021-09-25T23:10:38+00:00"
         },
         {
-            "name": "rummykhan/ab-test-accessor",
+            "name": "rummykhan/ab-lab-accessor",
             "version": "dev-master",
             "dist": {
                 "type": "path",
-                "url": "../ab-test-packages/ab-test-accessor",
-                "reference": "890705b02cdb727fece159cc9f91b125b9cd0860"
+                "url": "../ab-lab-packages/ab-lab-accessor",
+                "reference": "32deca8882a52774c14e3fb1a7ae45f50f7b2392"
+            },
+            "require": {
+                "laravel/framework": "^8.54",
+                "predis/predis": "^1.1"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "ABTest\\Accessor\\": "src/"
+                    "ABLab\\Accessor\\": "src/"
                 },
                 "files": [
                     "src/helpers.php"
@@ -8731,7 +8735,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "rummykhan/ab-test-accessor": 20
+        "rummykhan/ab-lab-accessor": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

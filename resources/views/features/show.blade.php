@@ -28,15 +28,15 @@
 
                         <div class="d-inline-block">
                             <x-radio id="launch" required name="type"
-                                     value="{{ \App\Data\FeatureType::LAUNCH }}"
-                                     :checked="$model->type === \App\Data\FeatureType::LAUNCH"
+                                     value="{{ \ABLab\Accessor\Data\FeatureType::LAUNCH }}"
+                                     :checked="$model->type === \ABLab\Accessor\Data\FeatureType::LAUNCH"
                                      label="Launch"></x-radio>
                         </div>
 
                         <div class="d-inline-block mx-3">
                             <x-radio id="experiment" required name="type"
-                                     value="{{ \App\Data\FeatureType::EXPERIMENT }}"
-                                     :checked="$model->type === \App\Data\FeatureType::EXPERIMENT"
+                                     value="{{ \ABLab\Accessor\Data\FeatureType::EXPERIMENT }}"
+                                     :checked="$model->type === \ABLab\Accessor\Data\FeatureType::EXPERIMENT"
                                      label="Experiment"></x-radio>
                         </div>
                     </div>

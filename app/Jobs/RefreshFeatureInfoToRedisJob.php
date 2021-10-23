@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use ABTest\Accessor\Data\ApplicationStage;
+use ABLab\Accessor\Data\ApplicationStage;
 use App\Data\FeatureApplicationStatus;
 use App\Models\Feature;
 use Illuminate\Bus\Queueable;
@@ -38,7 +38,8 @@ class RefreshFeatureInfoToRedisJob implements ShouldQueue
     {
         $data = [
             'id' => $this->feature->id,
-            'name' => $this->feature->name
+            'name' => $this->feature->name,
+            'type' => $this->feature->type,
         ];
 
         $data['applications'] = [
@@ -60,15 +61,17 @@ class RefreshFeatureInfoToRedisJob implements ShouldQueue
         return $this->feature->applications()
             ->whereNotIn('status', [
                 FeatureApplicationStatus::OFF,
-                FeatureApplicationStatus::PAUSED
+                FeatureApplicationStatus::PAUSED,
             ])
             ->get()
             ->map(function (Feature\FeatureApplication $application) {
                 return [
                     'id' => $application->id,
+                    'unique_id' => $application->application->unique_id,
                     'name' => $application->application->name,
                     'status' => $application->status,
                     'treatments' => $this->getApplicationTreatments($application),
+                    'are_overrides_active' => $application->are_overrides_active
                 ];
             })->toArray();
     }
@@ -78,15 +81,17 @@ class RefreshFeatureInfoToRedisJob implements ShouldQueue
         return $this->feature->devoApplications()
             ->whereNotIn('status', [
                 FeatureApplicationStatus::OFF,
-                FeatureApplicationStatus::PAUSED
+                FeatureApplicationStatus::PAUSED,
             ])
             ->get()
             ->map(function (Feature\FeatureApplicationDevo $application) {
                 return [
                     'id' => $application->id,
+                    'unique_id' => $application->application->unique_id,
                     'name' => $application->application->name,
                     'status' => $application->status,
                     'treatments' => $this->getDevoApplicationTreatments($application),
+                    'are_overrides_active' => $application->are_overrides_active
                 ];
             })->toArray();
     }

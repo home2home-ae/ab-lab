@@ -31,19 +31,19 @@ needs.
 - [x] Add root user authentication
 - [x] Add feature adding with treatments, allocation
 - [x] Add treatment assignment overrides
-- [ ] Add regular user page
+- [x] Add regular user page
 - [x] Add change password page
 - [ ] Create A/B web logo
 - [ ] Write tests
-- [ ] Write REDIS caching implementation
-- [ ] Use horizon jobs
-- [ ] Write A/B Lab Accessor (PHP/Laravel)
+- [x] Write REDIS caching implementation
+- [x] Use horizon jobs
+- [x] Write A/B Lab Accessor (PHP/Laravel)
     - [ ] Accessor should cache the results
 - [ ] Move this app to Production and post benchmarks (latency vs usability)
 
 ### Enhancements / Todo
 
-- [ ] Add enable / disable treatment overrides (right now it's by default enabled)
+- [x] Add enable / disable treatment overrides (right now it's by default enabled)
 - [ ] Add metrics and fatals to check if and when users are crashing.
 - [ ] Right now there is no regionalization, we can add regionalization..
 - [ ] Move Frontend to Vue JS instead of Blade (Although I love both..)

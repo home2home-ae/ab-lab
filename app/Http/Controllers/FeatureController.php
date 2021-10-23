@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use ABTest\Accessor\Data\ApplicationStage;
-use ABTest\Accessor\Data\FeatureTreatment;
+use ABLab\Accessor\Data\FeatureTreatment;
+use ABLab\Accessor\Data\ApplicationStage;
 use App\Data\FeatureApplicationStatus;
 use App\Data\FeatureEventType;
 use App\Data\FeatureOverride;
-use App\Data\FeatureType;
+use ABLab\Accessor\Data\FeatureType;
 use App\Events\FeatureUpdate;
 use App\Models\Application;
 use App\Models\Feature;
@@ -86,7 +86,7 @@ class FeatureController extends Controller
 
         FeatureUpdate::dispatch(Auth::user(), $model, FeatureEventType::CREATED, []);
 
-        return redirect()->route('feature-detail', ['id' => $model->id])
+        return redirect()->route('feature-detail', ['name' => $model->name])
             ->with('success', 'Feature created successfully!');
     }
 
@@ -182,7 +182,7 @@ class FeatureController extends Controller
             ],
             'value' => [
                 'required',
-                Rule::unique('feature_treatments', 'value')->where('feature_treatment_id', $request->get('treatment'))
+                Rule::unique('feature_overrides', 'value')->where('feature_treatment_id', $request->get('treatment'))
             ]
         ]);
 
@@ -420,7 +420,7 @@ class FeatureController extends Controller
 
             // paused, if C=100
             if ($featureTreatment->name === FeatureTreatment::C && intval($allocation) === 100) {
-                $featureApplication->status = FeatureApplicationStatus::PAUSED;
+                $featureApplication->status = FeatureApplicationStatus::ON;
                 $featureApplication->save();
 
                 // launched, if C=0
