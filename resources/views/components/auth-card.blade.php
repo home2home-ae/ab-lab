@@ -1,9 +1,20 @@
-<div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-    <div>
-        {{ $logo }}
-    </div>
+<div class="row" style="margin-top:10rem;">
 
-    <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-        {{ $slot }}
+    <div class="col-md-4 offset-md-4 col-sm-10 offset-sm-1">
+
+        <div class="card">
+
+            <div class="card-header">
+                <h4 class="text-center">{{ $title }}</h4>
+            </div>
+
+            <div class="card-body">
+
+                {{ $slot }}
+
+            </div>
+
+        </div>
+
     </div>
 </div>

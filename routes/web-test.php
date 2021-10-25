@@ -1,9 +1,8 @@
 <?php
 
-use ABLab\Accessor\Data\ApplicationStage;
+use ABLab\Accessor\ABLabAccessor;
 use ABLab\Accessor\Data\FeatureTreatment;
-use ABLab\Accessor\Manager\RedisFeatureRetriever;
-use ABLab\Accessor\Request\GetTreatmentRequest;
+use ABLab\Accessor\Request\Builder\TreatmentRequestBuilder;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Redis;
 
@@ -11,19 +10,23 @@ use Illuminate\Support\Facades\Redis;
 Route::get('/test', function () {
 
     $feature = 'AB_TEST_1_BP0_12000_3543';
-    $applicaton = 'H2H-SELLER';
-    $applicationStage = ApplicationStage::PRODUCTION;
-    $defaultTreatment = FeatureTreatment::C;
     $entityId = '555';
 
-    $treatmentRequest = new GetTreatmentRequest($feature, $applicaton, $applicationStage, $entityId, $defaultTreatment);
+    $treatmentRequest = TreatmentRequestBuilder::builder()
+        ->setFeatureName($feature)
+        ->setEntityId($entityId)
+        ->build();
 
-    /** @var RedisFeatureRetriever $manager */
+    /** @var ABLabAccessor $manager */
     $manager = app('ab-lab-accessor');
 
-    $response = $manager->getTreatment($treatmentRequest);
+    $treatment = $manager->getTreatment($treatmentRequest);
 
-    dd($response);
+    // if true mean feature is not launched (C)
+    echo FeatureTreatment::C == $treatment;
+
+    // if true mean feature is launched (T1)
+    echo FeatureTreatment::T1 == $treatment;
 
 });
 

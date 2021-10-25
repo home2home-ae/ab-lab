@@ -31,6 +31,13 @@
                         Users
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('ab-lab-setting') ? 'active' : '' }}" aria-current="page"
+                       href="{{ route('ab-lab-setting') }}">
+                        Guide
+                    </a>
+                </li>
             </ul>
             <ul class="navbar-nav mr-5 mb-2 mb-lg-0">
                 <li class="nav-item dropdown">

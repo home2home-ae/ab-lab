@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => 'abl'], function () {
@@ -65,6 +65,10 @@ Route::group(['middleware' => 'auth', 'prefix' => 'abl'], function () {
 
         Route::get('/create', 'ApplicationController@create')->name('create-application');
         Route::post('/create', 'ApplicationController@store')->name('store-application');
+    });
+
+    Route::group(['prefix' => 'setting'], function () {
+        Route::get('/', 'SettingController@index')->name('ab-lab-setting');
     });
 
 });
