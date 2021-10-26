@@ -31,7 +31,7 @@
 
 <body class="has-navbar-vertical-aside navbar-vertical-aside-show-xl footer-offset">
 
-<script src="{{ asset('/portal/vendor/hs-navbar-vertical-aside/hs-navbar-vertical-aside-mini-cache.js') }}"></script>
+<script src="{{ asset('/assets/vendor/hs-navbar-vertical-aside/hs-navbar-vertical-aside-mini-cache.js') }}"></script>
 
 <x-header/>
 
