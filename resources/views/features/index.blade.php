@@ -7,9 +7,11 @@
 
     <x-card>
 
-        <a href="{{ route('create-feature') }}" class="btn btn-primary btn-sm">Create Feature</a>
+        <a href="{{ route('create-feature') }}" class="btn btn-soft-primary btn-sm">
+            <i class="tio-add"></i> Create Feature
+        </a>
 
-        <table class="table table-striped table-hover">
+        <table class="table table-striped table-hover mt-5">
             <thead>
             <tr>
                 <th>#</th>

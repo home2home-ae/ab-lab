@@ -1,32 +1,56 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<html lang="en">
+<head>
+    <!-- Required Meta Tags Always Come First -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+    <!-- Title -->
+    <title> {{ env('APP_NAME')  }} | @yield('title')</title>
 
-        <!-- Fonts -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ asset('/portal/icon-pack/favicon.png')  }}">
 
-        <!-- Styles -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/font/bootstrap-icons.css">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-              integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
-        <!-- Scripts -->
-        <script
-            src="https://code.jquery.com/jquery-3.6.0.min.js"
-            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-            crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-                crossorigin="anonymous"></script>
-    </head>
-    <body style="background-color:#f8f9fa;">
-        <div class="font-sans text-gray-900 antialiased">
-            {{ $slot }}
+    <!-- CSS Implementing Plugins -->
+    <link rel="stylesheet" href="{{ asset('/assets/vendor/icon-set/style.css')  }}">
+
+    <!-- CSS Front Template -->
+    <link rel="stylesheet" href="{{ asset('/assets/css/theme.min.css')  }}">
+</head>
+
+<body style="background-color:#f9f9f9;">
+<!-- ========== MAIN CONTENT ========== -->
+<main id="content" role="main" class="main">
+
+    <!-- Content -->
+    <div class="container py-5 py-sm-7">
+
+        <div class="row justify-content-center" style="margin-top:10rem;">
+            <div class="col-md-7 col-lg-5">
+
+                {{ $slot }}
+
+            </div>
         </div>
-    </body>
+    </div>
+    <!-- End Content -->
+</main>
+<!-- ========== END MAIN CONTENT ========== -->
+
+<!-- JS Global Compulsory  -->
+<script src="{{ asset('/assets/vendor/jquery/dist/jquery.min.js')  }}"></script>
+<script src="{{ asset('/assets/vendor/jquery-migrate/dist/jquery-migrate.min.js')  }}"></script>
+<script src="{{ asset('/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js')  }}"></script>
+
+<!-- JS Front -->
+<script src="{{ asset('/portal/js/theme.min.js')  }}"></script>
+
+<!-- IE Support -->
+<script>
+    if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) document.write('<script src="{{ asset('/portal/vendor/babel-polyfill/polyfill.min.js')  }}"><\/script>');
+</script>
+</body>
 </html>

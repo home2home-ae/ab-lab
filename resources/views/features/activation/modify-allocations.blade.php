@@ -21,7 +21,7 @@
         <div class="mt-3">
             <x-link
                 href="{{ route('feature-activation', ['name' => $model->name]) }}"
-                class="btn btn-primary btn-sm">
+                class="btn btn-soft-primary btn-sm">
                 <i class="bi bi-arrow-left"></i> Back to activation
             </x-link>
         </div>

@@ -20,8 +20,9 @@ class ApplicationController extends Controller
     {
         $builder = Application::query();
 
-
-        $results = $builder->paginate();
+        $results = $builder
+            ->orderBy('id', 'DESC')
+            ->paginate();
 
         return view('applications.index', compact('results'));
     }
@@ -110,5 +111,18 @@ class ApplicationController extends Controller
         $model->update($validatedData);
 
         return back()->with('success', 'Application updated successfully!');
+    }
+
+    public function toggleStatus($id, Request $request)
+    {
+        /** @var Application $model */
+        $model = Application::query()
+            ->where('id', $id)->firstOrFail();
+
+
+        $model->is_active = !$model->is_active;
+        $model->save();
+
+        return back()->with('success', 'Application status updated successfully!');
     }
 }

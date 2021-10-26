@@ -11,14 +11,12 @@
 
     <x-card>
 
-        <div class="d-block mb-8">
-            @include('features.show.links')
-        </div>
+        @include('features.show.links')
 
         <x-flash class="my-2"/>
 
         <div class="row mt-3">
-            <div class="col-12">
+            <div class="col-md-4 col-sm-12">
 
 
                 <x-form action="{{ route('activate-application', ['name' => $model->name]) }}" method="POST">
@@ -29,24 +27,30 @@
 
 
                     <div class="form-group mt-3">
-                        <x-button class="">Activate application</x-button>
+                        <x-button class="">
+                            <i class="tio-checkmark-circle"></i> Activate application
+                        </x-button>
                     </div>
 
                 </x-form>
             </div>
         </div>
 
-        @include('features.activation.table', [
-                            'applications' => $model->applications,
-                            'name' => $model->name,
-                            'stage' => \ABLab\Accessor\Data\ApplicationStage::PRODUCTION
-                            ])
+        @if($model->applications->count() > 0)
+            @include('features.activation.table', [
+                                'applications' => $model->applications,
+                                'name' => $model->name,
+                                'stage' => \ABLab\Accessor\Data\ApplicationStage::PRODUCTION
+                                ])
+        @endif
 
-        @include('features.activation.table', [
-                            'applications' => $model->devoApplications,
-                            'name' => $model->name,
-                            'stage' => \ABLab\Accessor\Data\ApplicationStage::DEVELOPMENT
-                            ])
+        @if($model->devoApplications->count() > 0)
+            @include('features.activation.table', [
+                                'applications' => $model->devoApplications,
+                                'name' => $model->name,
+                                'stage' => \ABLab\Accessor\Data\ApplicationStage::DEVELOPMENT
+                                ])
+        @endif
 
 
     </x-card>

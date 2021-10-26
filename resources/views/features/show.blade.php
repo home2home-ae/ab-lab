@@ -61,7 +61,9 @@
 
             <div class="grid grid-cols-1 mt-2">
                 <div class="w-1/4">
-                    <x-button>Update Feature</x-button>
+                    <x-button>
+                        <i class="tio-update"></i> Update basic info
+                    </x-button>
                 </div>
 
             </div>

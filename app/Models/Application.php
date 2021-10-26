@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $icon
  * @property string $type
  * @property string $unique_id
+ * @property boolean $is_active
  */
 class Application extends EloquentModel
 {

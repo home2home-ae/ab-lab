@@ -7,11 +7,13 @@
 
     <x-card>
 
-        <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm my-3">Create User</a>
+        <a href="{{ route('users.create') }}" class="btn btn-soft-primary btn-sm my-3">
+            <i class="tio-add"></i> Create User
+        </a>
 
         <x-flash class="my-3" />
 
-        <table class="table table-striped table-hover">
+        <table class="table table-striped table-hover mt-5">
             <thead>
             <tr>
                 <th>#</th>

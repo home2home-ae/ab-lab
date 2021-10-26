@@ -26,7 +26,9 @@ class FeatureController extends Controller
         $builder = Feature::query();
 
 
-        $results = $builder->paginate();
+        $results = $builder
+            ->orderBy('id', 'DESC')
+            ->paginate();
 
         return view('features.index', compact('results'));
     }
@@ -146,7 +148,10 @@ class FeatureController extends Controller
 
         $addedApplicationIds = $model->applications()->pluck('application_id')->toArray();
 
-        $applications = Application::query()->whereNotIn('id', $addedApplicationIds)->get();
+        $applications = Application::query()
+            ->whereNotIn('id', $addedApplicationIds)
+            ->where('is_active', true)
+            ->get();
 
         $applicationList = $applications->pluck('name', 'id')->toArray();
 

@@ -17,16 +17,32 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::group(['middleware' => 'auth', 'prefix' => 'abl'], function () {
+Route::group(['middleware' => 'auth', 'prefix' => 'lix'], function () {
 
     Route::group(['prefix' => 'auth'], function () {
         Route::get('change-password', 'AuthController@changePasswordForm')->name('change-password');
         Route::post('update-password', 'AuthController@updatePassword')->name('update-password');
     });
 
-    Route::group(['middleware' => 'root', 'prefix' => 'root'], function () {
-        Route::resource('users', 'UserController');
-        Route::put('/{id}/toggle-user-status', 'UserController@toggleUserStatus')->name('toggle-user-status');
+    Route::group(['middleware' => 'root', 'prefix' => 'r'], function () {
+
+        Route::group(['prefix' => 'basic'], function () {
+            Route::resource('users', 'UserController');
+            Route::put('/{id}/toggle-user-status', 'UserController@toggleUserStatus')->name('toggle-user-status');
+        });
+
+        Route::group(['prefix' => 'application',], function () {
+            Route::get('/', 'ApplicationController@index')->name('applications');
+
+            Route::get('/{id}/edit', 'ApplicationController@showUpdateForm')->name('edit-application');
+            Route::post('/{id}/update', 'ApplicationController@update')->name('update-application');
+
+            Route::put('/{id}/toggle-status', 'ApplicationController@toggleStatus')->name('toggle-application-status');
+
+            Route::get('/create', 'ApplicationController@create')->name('create-application');
+            Route::post('/create', 'ApplicationController@store')->name('store-application');
+        });
+
     });
 
     Route::get('/', 'DashboardController@index')->name('dashboard');
@@ -57,15 +73,6 @@ Route::group(['middleware' => 'auth', 'prefix' => 'abl'], function () {
         Route::put('/{name}/stage/{stage}/application/{application}/play', 'FeatureController@playFeature')->name('play-feature');
     });
 
-    Route::group(['prefix' => 'application'], function () {
-        Route::get('/', 'ApplicationController@index')->name('applications');
-
-        Route::get('/{id}/edit', 'ApplicationController@showUpdateForm')->name('edit-application');
-        Route::post('/{id}/update', 'ApplicationController@update')->name('update-application');
-
-        Route::get('/create', 'ApplicationController@create')->name('create-application');
-        Route::post('/create', 'ApplicationController@store')->name('store-application');
-    });
 
     Route::group(['prefix' => 'setting'], function () {
         Route::get('/', 'SettingController@index')->name('ab-lab-setting');
