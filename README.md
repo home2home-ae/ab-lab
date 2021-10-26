@@ -1,3 +1,6 @@
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/rummykhan/ab-lab/master/public/assets/img/icon-pack/logo.png" width="400"></a></p>
+
+
 # A/B Lab
 
 ---
@@ -33,7 +36,7 @@ needs.
 - [x] Add treatment assignment overrides
 - [x] Add regular user page
 - [x] Add change password page
-- [ ] Create A/B web logo
+- [x] Create A/B web logo
 - [ ] Write tests
 - [x] Write REDIS caching implementation
 - [x] Use horizon jobs
