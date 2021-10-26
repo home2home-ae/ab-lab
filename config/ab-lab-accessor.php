@@ -6,14 +6,14 @@ return [
      * Unique application ID for the application
      * This you can take from A/B Lab Web application
      */
-    'id' => 'H2H-ADMIN',
+    'id' => env('AB_LAB_ID','H2H-ADMIN'),
 
     /**
      * Available options are: DEVELOPMENT, PRODUCTION
      * DEVELOPMENT: it's usually your staging / devo environment
      * PRODUCTION: it's usually your production environment
      */
-    'stage' => 'DEVELOPMENT',
+    'stage' => env('AB_LAB_ENV','DEVELOPMENT'),
 
     /**
      * Available options are: C, T1, T2, T3
@@ -23,7 +23,7 @@ return [
      * T2: Means in worst case you want to fall back to one of the new flow
      * T3: Means in worst case you want to fall back to one of the new flow
      */
-    'defaultTreatment' => 'C',
+    'defaultTreatment' => env('AB_LAB_DEFAULT_TREATMENT','C'),
 
     /**
      * There are two possible values for the implementation: api, redis
@@ -31,8 +31,7 @@ return [
      * redis: mean redis implementation, best when ab-lab is deployed in the same VPC
      * api: it's better for microservices architecture
      */
-    'implementation' => 'redis',
-
+    'implementation' => env('AB_LAB_IMPLEMENTATION','redis'),
 
     /**
      * Setting for WEB API implementation
