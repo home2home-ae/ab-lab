@@ -1,7 +1,8 @@
 <x-app-layout>
     <x-auth-card>
 
-        <x-slot name="logo">
+        <x-slot name="title">
+            Change Password
         </x-slot>
 
         <div class="row">
