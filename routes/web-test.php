@@ -9,12 +9,13 @@ use Illuminate\Support\Facades\Redis;
 
 Route::get('/test', function () {
 
-    $feature = 'AB_TEST_1_BP0_12000_3543';
+    $feature = 'API_ENABLE_CODE_FOR_STORE_8XC_12004_4221';
     $entityId = '555';
 
     $treatmentRequest = TreatmentRequestBuilder::builder()
         ->setFeatureName($feature)
-        ->setEntityId($entityId)
+        ->setApplicationStage(\ABLab\Accessor\Data\ApplicationStage::PRODUCTION)
+        //->setEntityId($entityId)
         ->build();
 
     /** @var ABLabAccessor $manager */
@@ -22,11 +23,7 @@ Route::get('/test', function () {
 
     $treatment = $manager->getTreatment($treatmentRequest);
 
-    // if true mean feature is not launched (C)
-    echo FeatureTreatment::C == $treatment;
-
-    // if true mean feature is launched (T1)
-    echo FeatureTreatment::T1 == $treatment;
+    dd($treatment);
 
 });
 

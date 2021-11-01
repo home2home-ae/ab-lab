@@ -2,25 +2,35 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Helper\RedisFeatureHelper;
+use ABLab\Accessor\Manager\RedisFeatureRetriever;
+use ABLab\Accessor\Request\Builder\TreatmentRequestBuilder;
 use App\Http\Controllers\Controller;
-use App\Response\TreatmentResponse;
 use Illuminate\Http\Request;
 
 class TreatmentController extends Controller
 {
     public function getTreatment(Request $request)
     {
-        $feature = $request->get('feature');
-        $application = $request->get('application');
-        $defaultTreatment = $request->get('defaultTreatment');
-        $entityId = $request->get('entityId');
+        $builder = TreatmentRequestBuilder::builder()
+            ->setFeatureName($request->get('featureName'))
+            ->setApplication($request->get('application'))
+            ->setApplicationStage($request->get('applicationStage'))
+            ->setDefaultTreatment($request->get('defaultTreatment'));
 
-        $helper = new RedisFeatureHelper($feature, $application, $defaultTreatment, $entityId);
+        if ($request->has('entityId') && !empty($request->get('entityId'))) {
+            $builder->setEntityId($request->get('entityId'));
+        }
 
+        $treatmentRequest = $builder->build();
+
+        /** @var RedisFeatureRetriever $manager */
+        $manager = app('ab-lab-accessor')->withImplementation('redis');
+        $response = $manager->getTreatment($treatmentRequest);
 
         return response()->json([
-            'data' => $helper->getTreatmentResponse()
+            'treatment' => $response->getTreatment(),
+            'request' => $treatmentRequest->toArray(),
+            'response' => $response->toArray(),
         ]);
     }
 }

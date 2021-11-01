@@ -31,7 +31,7 @@ return [
      * redis: mean redis implementation, best when ab-lab is deployed in the same VPC
      * api: it's better for microservices architecture
      */
-    'implementation' => env('AB_LAB_IMPLEMENTATION', 'redis'),
+    'implementation' => env('AB_LAB_IMPLEMENTATION', 'api'),
 
 
     /**
@@ -42,6 +42,8 @@ return [
     'api' => [
         'base_url' => env('AB_LAB_API_URL', 'http://ab-lab.loc/api'),
         'token' => env('AB_LAB_API_TOKEN', null),
+        'username' => env('AB_LAB_API_USERNAME', 'admin'),
+        'password' => env('AB_LAB_API_PASSWORD', 'admin'),
     ],
 
     /**
