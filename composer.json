@@ -68,11 +68,5 @@
         "sort-packages": true
     },
     "minimum-stability": "dev",
-    "prefer-stable": true,
-    "repositories": [
-        {
-            "url": "https://github.com/rummykhan/ab-lab-accessor",
-            "type": "git"
-        }
-    ]
+    "prefer-stable": true
 }
