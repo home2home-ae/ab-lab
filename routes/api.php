@@ -15,4 +15,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/get-treatment', 'TreatmentController@getTreatment');
+Route::any('/get-treatment', 'TreatmentController@getTreatment');

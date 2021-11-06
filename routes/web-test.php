@@ -2,6 +2,7 @@
 
 use ABLab\Accessor\ABLabAccessor;
 use ABLab\Accessor\Data\FeatureTreatment;
+use ABLab\Accessor\Manager\RedisFeatureRetriever;
 use ABLab\Accessor\Request\Builder\TreatmentRequestBuilder;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Redis;
@@ -9,28 +10,23 @@ use Illuminate\Support\Facades\Redis;
 
 Route::get('/test', function () {
 
-    $feature = 'API_ENABLE_CODE_FOR_STORE_8XC_12004_4221';
-    $entityId = '555';
+    $feature = 'REDUCE_ADDON_PRICE_TO_ZERO_A1S_12003_4870';
+    $entityId = '42';
 
     $treatmentRequest = TreatmentRequestBuilder::builder()
         ->setFeatureName($feature)
         ->setApplicationStage(\ABLab\Accessor\Data\ApplicationStage::PRODUCTION)
+        ->setApplication('H2H-API')
+        ->setEntityId($entityId)
+        ->setDefaultTreatment('C')
         ->build();
 
-    /** @var ABLabAccessor $manager */
-    $manager = app('ab-lab-accessor');
+    /** @var RedisFeatureRetriever $manager */
+    $manager = app('ab-lab-accessor')->withImplementation('redis');
 
-    $manager->getTreatment($treatmentRequest);
-    $manager->getTreatment($treatmentRequest);
-    $manager->getTreatment($treatmentRequest);
-    $manager->getTreatment($treatmentRequest);
-    $manager->getTreatment($treatmentRequest);
-    $manager->getTreatment($treatmentRequest);
-    $manager->getTreatment($treatmentRequest);
-    $manager->getTreatment($treatmentRequest);
-    $manager->getTreatment($treatmentRequest);
+    $response = $manager->getTreatment($treatmentRequest);
 
-    dd($manager->dd());
+    dd($manager, $treatmentRequest, $response);
 
 });
 
