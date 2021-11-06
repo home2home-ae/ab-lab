@@ -40,7 +40,7 @@ return [
      * redis: for 10 minutes all the request and treatment would be cached in redis
      * file: for 10 minutes all the request and treatment would be cached on file
      */
-    'cache' => env('AB_LAB_CACHE', 'file'),
+    'cache' => env('AB_LAB_CACHE', 'none'),
 
     /**
      * Local cache implementation config in case cache is redis or file
