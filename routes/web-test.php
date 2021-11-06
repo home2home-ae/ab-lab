@@ -15,15 +15,22 @@ Route::get('/test', function () {
     $treatmentRequest = TreatmentRequestBuilder::builder()
         ->setFeatureName($feature)
         ->setApplicationStage(\ABLab\Accessor\Data\ApplicationStage::PRODUCTION)
-        //->setEntityId($entityId)
         ->build();
 
     /** @var ABLabAccessor $manager */
     $manager = app('ab-lab-accessor');
 
-    $treatment = $manager->getTreatment($treatmentRequest);
+    $manager->getTreatment($treatmentRequest);
+    $manager->getTreatment($treatmentRequest);
+    $manager->getTreatment($treatmentRequest);
+    $manager->getTreatment($treatmentRequest);
+    $manager->getTreatment($treatmentRequest);
+    $manager->getTreatment($treatmentRequest);
+    $manager->getTreatment($treatmentRequest);
+    $manager->getTreatment($treatmentRequest);
+    $manager->getTreatment($treatmentRequest);
 
-    dd($treatment);
+    dd($manager->dd());
 
 });
 
